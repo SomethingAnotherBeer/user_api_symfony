@@ -10,7 +10,7 @@ class UserRequestDTO
     private ?string $login = null;
 
     #[Assert\NotNull(message: 'Пароль пользователя не может быть null', groups: ['password'])]
-    #[Assert\NotBlank(message: 'Пароль пользователя не может быть пустым')]
+    #[Assert\NotBlank(message: 'Пароль пользователя не может быть пустым', groups: ['password'])]
     #[Assert\Length(
         min: 8,
         minMessage: 'Минимальная длина пароля должна составлять 8 символов',

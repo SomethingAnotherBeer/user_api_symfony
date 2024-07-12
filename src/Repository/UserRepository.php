@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\From;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -63,6 +64,20 @@ class UserRepository extends ServiceEntityRepository
         {
             return $this->findOneBy(['id' => $user_id]);
         }
+
+        public function getMaxUserId(): ?int
+        {
+            $qb = $this->getEntityManager()->createQueryBuilder();
+
+            $res = $qb->select("MAX(u.id) AS max_user_id")
+                    ->from(User::class, 'u')
+                    ->getQuery()
+                    ->getResult();
+
+            return ($res) ? (int)$res[0]['max_user_id'] : null;
+
+        }
+
 
         public function checkUserByLogin(string $user_login): bool
         {
