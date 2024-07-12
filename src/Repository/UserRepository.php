@@ -40,4 +40,38 @@ class UserRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+
+        public function saveUser(User $user): void
+        {
+            $em = $this->getEntityManager();
+
+            $em->persist($user);
+            $em->flush();
+        }
+
+        public function removeUser(User $user): void
+        {
+            $em = $this->getEntityManager();
+
+            $em->remove($user);
+            $em->flush();
+        }
+
+        public function getUserById(int $user_id): ?User
+        {
+            return $this->findOneBy(['id' => $user_id]);
+        }
+
+        public function checkUserByLogin(string $user_login): bool
+        {
+            return ($this->findOneBy(['login' => $user_login])) ? true : false;
+        }
+
+        public function checkUserByEmail(string $user_email): bool
+        {
+            return ($this->findOneBy(['email' => $user_email])) ? true : false;
+        }
+
 }
